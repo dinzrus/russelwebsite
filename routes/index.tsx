@@ -14,7 +14,7 @@ export default function Home() {
         />
         <h1 class="text-4xl font-bold">Welcome to Russel Website</h1>
         <p class="my-4">
-          I'm still learning... now.
+          I'm still learning... now... Until I will learned this fresh.
         </p>
       </div>
     </div>
