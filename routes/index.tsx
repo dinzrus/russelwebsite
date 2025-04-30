@@ -14,8 +14,7 @@ export default function Home() {
         />
         <h1 class="text-4xl font-bold">Welcome to Russel Website</h1>
         <p class="my-4">
-          Try updating this message in the
-          <code class="mx-2">./routes/index.tsx</code> file, and refresh.
+          I'm still learning... 
         </p>
       </div>
     </div>
