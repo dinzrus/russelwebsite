@@ -1,12 +1,13 @@
-import { useSignal } from "@preact/signals";
-
 export default function Home() {
-  const count = useSignal(3);
   return (
-    <div class="px-4 py-8 mx-auto bg-[#86efac]">
+    <main class="mx-auto bg-[#86efac]">
+      <header class="bg-gray-800 text-white p-4">
+        <h1 class="text-3xl font-bold text-center">Welcome to my personal website</h1>
+      </header>
+
       <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
         <img
-          class="my-6"
+          class="my-6 rounded-full"
           src="/russeldinoy-profile.webp"
           width="128"
           height="128"
@@ -32,6 +33,12 @@ export default function Home() {
       <section class="max-w-screen-md mx-auto mt-8">
         <h2 class="text-2xl">Hobbies</h2>
       </section>
-    </div>
+
+      <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+      <p>&copy; 2025 Russel Dinoy. All rights reserved.</p>
+      </footer>
+
+    </main>
+    
   );
 }
