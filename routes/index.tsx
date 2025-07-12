@@ -13,11 +13,6 @@ export default function Home() {
           Russel Dinoy | Full Stack Developer
         </h1>
         <p class="my-4">
-          For a little introduction, I am a software engineer with a passion for
-          building web applications. I love working with modern technologies and
-          frameworks to create efficient and user-friendly experiences.
-        </p>
-        <p>
           I really believe in the power of technologies to transform lives and
           make the world a better place. I am always eager to learn new things
           and improve my skills.
@@ -29,7 +24,13 @@ export default function Home() {
         <hr class="my-2"></hr>
         <div class="flex border my-4 rounded-lg">
           <div class="p-4">
-            <h3 class="font-bold text-base">
+            <img
+              src="/project-preview-thumb.webp"
+              class="object-cover"
+              width="100%"
+              height="300"
+            />
+            <h3 class="font-bold text-base mt-4">
               Realtour Boss - Real Estate Website
             </h3>
             <p>
