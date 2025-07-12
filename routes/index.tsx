@@ -9,7 +9,7 @@ export default function Home() {
           height="128"
           alt="the Fresh logo: a sliced lemon dripping with juice"
         />
-        <h1 class="text-4xl font-bold">
+        <h1 class="text-xl md:text-4xl font-bold">
           Russel Dinoy | Full Stack Developer
         </h1>
         <p class="my-4">
