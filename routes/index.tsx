@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <main class="mx-auto">
+    <main class="mx-auto p-8">
       <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
         <img
           class="my-6 rounded-full"
@@ -142,7 +142,7 @@ export default function Home() {
       </section>
 
       <section class="max-w-screen-md mx-auto mt-8">
-        <h2 class="text-2xl">Contact Me</h2>
+        <h2 class="text-2xl">Contact</h2>
         <hr class="my-2"></hr>
       </section>
 
