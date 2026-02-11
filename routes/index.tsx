@@ -12,11 +12,7 @@ export default function Home() {
         <h1 class="text-xl md:text-4xl font-bold">
           Russel Dinoy | Full Stack Developer
         </h1>
-        <p class="my-4">
-          I really believe in the power of technologies to transform lives and
-          make the world a better place. I am always eager to learn new things
-          and improve my skills.
-        </p>
+        <p class="my-4">Love AI :)</p>
       </div>
 
       <section class="max-w-screen-md mx-auto mt-8 px-8">
@@ -33,10 +29,10 @@ export default function Home() {
             <h3 class="font-bold text-base mt-4">
               Realtour Boss - Real Estate Website
             </h3>
-            <p>
-              This is a project description
-            </p>
-            <a href="#" class="text-blue-600">View Project</a>
+            <p>This is a project description</p>
+            <a href="#" class="text-blue-600">
+              View Project
+            </a>
           </div>
         </div>
 
@@ -45,10 +41,10 @@ export default function Home() {
             <h3 class="font-bold text-base">
               Realtour Boss - Real Estate Website
             </h3>
-            <p>
-              This is a project description
-            </p>
-            <a href="#" class="text-blue-600">View Project</a>
+            <p>This is a project description</p>
+            <a href="#" class="text-blue-600">
+              View Project
+            </a>
           </div>
         </div>
       </section>
@@ -64,7 +60,10 @@ export default function Home() {
           bringing ideas to life, transforming complex concepts into clean,
           efficient, and user-friendly web applications.
         </p>
-        <p class="mb-2">
+        <p
+          class="mb
+          -2"
+        >
           I specialize in React.js, JavaScript, HTML, and CSS, and I'm always
           eager to learn new technologies that enhance the user experience. What
           truly excites me is the collaborative process—working with designers
@@ -98,8 +97,10 @@ export default function Home() {
             <span class="text-sm font-semibold text-blue-600">85%</span>
           </div>
           <div class="w-full bg-gray-200 rounded-full h-4">
-            <div class="bg-green-400 h-4 rounded-full" style="width: 85%;">
-            </div>
+            <div
+              class="bg-green-400 h-4 rounded-full"
+              style="width: 85%;"
+            ></div>
           </div>
         </div>
         <div class="mb-6">
@@ -108,8 +109,10 @@ export default function Home() {
             <span class="text-sm font-semibold text-blue-600">70%</span>
           </div>
           <div class="w-full bg-gray-200 rounded-full h-4">
-            <div class="bg-yellow-600 h-4 rounded-full" style="width: 70%;">
-            </div>
+            <div
+              class="bg-yellow-600 h-4 rounded-full"
+              style="width: 70%;"
+            ></div>
           </div>
         </div>
         <div class="mb-6">
@@ -138,8 +141,7 @@ export default function Home() {
             <span class="text-sm font-semibold text-blue-600">60%</span>
           </div>
           <div class="w-full bg-gray-200 rounded-full h-4">
-            <div class="bg-red-600 h-4 rounded-full" style="width: 60%;">
-            </div>
+            <div class="bg-red-600 h-4 rounded-full" style="width: 60%;"></div>
           </div>
         </div>
         <div class="mb-6">
@@ -148,8 +150,10 @@ export default function Home() {
             <span class="text-sm font-semibold text-blue-600">65%</span>
           </div>
           <div class="w-full bg-gray-200 rounded-full h-4">
-            <div class="bg-orange-600 h-4 rounded-full" style="width: 65%;">
-            </div>
+            <div
+              class="bg-orange-600 h-4 rounded-full"
+              style="width: 65%;"
+            ></div>
           </div>
         </div>
         <div class="mb-6">
@@ -158,8 +162,7 @@ export default function Home() {
             <span class="text-sm font-semibold text-blue-600">90%</span>
           </div>
           <div class="w-full bg-gray-200 rounded-full h-4">
-            <div class="bg-gray-600 h-4 rounded-full" style="width: 90%;">
-            </div>
+            <div class="bg-gray-600 h-4 rounded-full" style="width: 90%;"></div>
           </div>
         </div>
       </section>
