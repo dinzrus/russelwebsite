@@ -32,5 +32,3 @@ jobs:
           project: "russeldinoy-russelwebsi-10"
           entrypoint: "main.ts"
           root: "."
-          
-          

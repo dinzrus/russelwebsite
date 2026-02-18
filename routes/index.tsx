@@ -1,4 +1,5 @@
 export default function Home() {
+  const myname = "Russel Dinoy";
   return (
     <main class="mx-auto">
       <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center px-8">
@@ -7,49 +8,14 @@ export default function Home() {
           src="/russeldinoy-profile.webp"
           width="128"
           height="128"
-          alt="the Fresh logo: a sliced lemon dripping with juice"
+          alt="Russel Dinoy Profile Photo"
         />
         <h1 class="text-xl md:text-4xl font-bold">
-          Russel Dinoy | Full Stack Developer
+          {myname} | Full Stack Developer
         </h1>
-        <p class="my-4">Love AI :)</p>
       </div>
 
-      <section class="max-w-screen-md mx-auto mt-8 px-8">
-        <h2 class="text-2xl font-bold">Projects</h2>
-        <hr class="my-2"></hr>
-        <div class="flex border my-4 rounded-lg">
-          <div class="p-4">
-            <img
-              src="/project-preview-thumb.webp"
-              class="object-cover"
-              width="100%"
-              height="300"
-            />
-            <h3 class="font-bold text-base mt-4">
-              Realtour Boss - Real Estate Website
-            </h3>
-            <p>This is a project description</p>
-            <a href="#" class="text-blue-600">
-              View Project
-            </a>
-          </div>
-        </div>
-
-        <div class="flex border my-4 rounded-lg">
-          <div class="p-4">
-            <h3 class="font-bold text-base">
-              Realtour Boss - Real Estate Website
-            </h3>
-            <p>This is a project description</p>
-            <a href="#" class="text-blue-600">
-              View Project
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section class="max-w-screen-md mx-auto mt-8 px-8">
+      <section class="max-w-screen-md mx-auto mt-8 px-8 border shadow-md rounded-lg p-5 border-gray-400">
         <h2 class="text-2xl font-bold">About Me</h2>
         <hr class="my-2"></hr>
         <p class="mb-2">
@@ -60,10 +26,8 @@ export default function Home() {
           bringing ideas to life, transforming complex concepts into clean,
           efficient, and user-friendly web applications.
         </p>
-        <p
-          class="mb
-          -2"
-        >
+        <p class="mb
+          -2">
           I specialize in React.js, JavaScript, HTML, and CSS, and I'm always
           eager to learn new technologies that enhance the user experience. What
           truly excites me is the collaborative process—working with designers
@@ -79,7 +43,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section class="max-w-screen-md mx-auto mt-8 px-8">
+      <section class="max-w-screen-md mx-auto mt-8 px-8 border shadow-md rounded-lg p-5 border-gray-400">
         <h2 class="text-2xl font-bold">Skills and Technologies</h2>
         <hr class="my-2"></hr>
         <div class="mb-6">
@@ -100,7 +64,8 @@ export default function Home() {
             <div
               class="bg-green-400 h-4 rounded-full"
               style="width: 85%;"
-            ></div>
+            >
+            </div>
           </div>
         </div>
         <div class="mb-6">
@@ -112,7 +77,8 @@ export default function Home() {
             <div
               class="bg-yellow-600 h-4 rounded-full"
               style="width: 70%;"
-            ></div>
+            >
+            </div>
           </div>
         </div>
         <div class="mb-6">
@@ -153,7 +119,8 @@ export default function Home() {
             <div
               class="bg-orange-600 h-4 rounded-full"
               style="width: 65%;"
-            ></div>
+            >
+            </div>
           </div>
         </div>
         <div class="mb-6">
@@ -167,7 +134,30 @@ export default function Home() {
         </div>
       </section>
 
-      <section class="max-w-screen-md mx-auto mt-8 px-8">
+      <section class="max-w-screen-md mx-auto mt-8 px-8 border shadow-md rounded-lg p-5 border-gray-400">
+        <h2 class="text-2xl font-bold">Projects</h2>
+        <hr class="my-2"></hr>
+        <div className="flex flex-col gap-2 shadow-lg">
+            <div className="w-full border rounded-md border-gray-300 p-5">
+              <h3 class="font-semibold">Project 1</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            </div>
+            <div className="w-full border rounded-md border-gray-300 p-5">
+              <h3 class="font-semibold">Project 1</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            </div>
+            <div className="w-full border rounded-md border-gray-300 p-5">
+              <h3 class="font-semibold">Project 1</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            </div>
+            <div className="w-full border rounded-md border-gray-300 p-5">
+              <h3 class="font-semibold">Project 1</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            </div>
+        </div>    
+      </section>
+
+      <section class="max-w-screen-md mx-auto mt-8 px-8 border rounded-lg p-5 border-gray-400">
         <h2 class="text-2xl font-bold">Contact</h2>
         <hr class="my-2"></hr>
       </section>
