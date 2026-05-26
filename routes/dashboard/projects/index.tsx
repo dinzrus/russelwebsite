@@ -79,7 +79,7 @@ export default function ProjectList({ data }: PageProps<ProjectsData>) {
                 <button
                   type="submit"
                   class="text-sm text-red-400 hover:text-red-300 transition-colors"
-                  onClick={(e) => { if (!confirm("Delete this project?")) e.preventDefault(); }}
+                  onclick="return confirm('Delete this project?')"
                 >
                   Delete
                 </button>

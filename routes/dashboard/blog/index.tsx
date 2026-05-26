@@ -75,7 +75,7 @@ export default function BlogList({ data }: PageProps<BlogData>) {
                 <button
                   type="submit"
                   class="text-sm text-red-400 hover:text-red-300 transition-colors"
-                  onClick={(e) => { if (!confirm("Delete this post?")) e.preventDefault(); }}
+                  onclick="return confirm('Delete this post?')"
                 >
                   Delete
                 </button>

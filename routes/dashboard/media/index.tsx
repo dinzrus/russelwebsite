@@ -81,22 +81,13 @@ export default function MediaPage({ data }: PageProps<MediaData>) {
               <p class="text-sm text-slate-900 dark:text-white font-medium truncate" title={file.name}>{file.name}</p>
               <p class="text-xs text-slate-400 dark:text-slate-500 mb-2">{formatSize(file.size)}</p>
               <div class="space-y-1.5">
-                <button
-                  onClick={`navigator.clipboard.writeText("![${file.name}](${file.path})")`}
-                  class="w-full px-2 py-1 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-lg hover:bg-cyan-500/20 transition-colors"
-                >
-                  Copy Markdown
-                </button>
-                <button
-                  onClick={`navigator.clipboard.writeText("${file.path}")`}
-                  class="w-full px-2 py-1 text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
-                >
-                  Copy URL
-                </button>
+                <input type="text" readonly value={`![${file.name}](${file.path})`}
+                  class="w-full px-2 py-1 text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600 outline-none"
+                  onclick="this.select()" />
                 <form method="POST" action="/api/dashboard/delete-image" class="inline w-full">
                   <input type="hidden" name="name" value={file.name} />
                   <button type="submit"
-                    onClick={(e) => { if (!confirm(`Delete "${file.name}"?`)) e.preventDefault(); }}
+                    onclick={`return confirm('Delete ${file.name.replace(/'/g, "\\'")}?')`}
                     class="w-full px-2 py-1 text-xs font-medium text-red-400 bg-red-500/10 rounded-lg hover:bg-red-500/20 transition-colors"
                   >
                     Delete

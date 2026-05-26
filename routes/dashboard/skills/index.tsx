@@ -64,7 +64,7 @@ export default function SkillsList({ data }: PageProps<SkillsData>) {
               <form method="POST" action="/api/dashboard/delete-skill">
                 <input type="hidden" name="name" value={skill.name} />
                 <button type="submit" class="text-sm text-red-400 hover:text-red-300 transition-colors"
-                  onClick={(e) => { if (!confirm(`Delete "${skill.name}"?`)) e.preventDefault(); }}
+                  onclick={`return confirm('Delete ${skill.name.replace(/'/g, "\\'")}?')`}
                 >Delete</button>
               </form>
             </div>
