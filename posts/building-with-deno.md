@@ -1,11 +1,11 @@
 ---
 title: "Building Web Apps with Deno and Fresh"
-date: 2026-05-25
+date: "2026-05-26"
 excerpt: "My experience building this portfolio site with the Deno runtime and Fresh framework."
 tags: ["deno", "fresh", "tailwind"]
 ---
-
 ## Why Deno?
+![cfwap-compliancy.png](/images/cfwap-compliancy.png)
 
 Deno is a modern runtime for JavaScript and TypeScript. Here's what I like about it:
 

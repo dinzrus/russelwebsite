@@ -3,7 +3,7 @@ import type { ComponentChildren } from "preact";
 interface Props {
   children: ComponentChildren;
   title: string;
-  activeNav?: "dashboard" | "blog" | "projects" | "skills" | "settings";
+  activeNav?: "dashboard" | "blog" | "projects" | "skills" | "media" | "settings";
 }
 
 const NAV_ITEMS = [
@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { id: "blog", label: "Blog Posts", href: "/dashboard/blog" },
   { id: "projects", label: "Projects", href: "/dashboard/projects" },
   { id: "skills", label: "Skills", href: "/dashboard/skills" },
+  { id: "media", label: "Media", href: "/dashboard/media" },
   { id: "settings", label: "Settings", href: "/dashboard/settings" },
 ] as const;
 

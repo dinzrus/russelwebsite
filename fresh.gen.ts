@@ -5,8 +5,10 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $api_dashboard_delete_blog from "./routes/api/dashboard/delete-blog.ts";
+import * as $api_dashboard_delete_image from "./routes/api/dashboard/delete-image.ts";
 import * as $api_dashboard_delete_project from "./routes/api/dashboard/delete-project.ts";
 import * as $api_dashboard_delete_skill from "./routes/api/dashboard/delete-skill.ts";
+import * as $api_dashboard_upload_image from "./routes/api/dashboard/upload-image.ts";
 import * as $blog_slug_ from "./routes/blog/[slug].tsx";
 import * as $blog_index from "./routes/blog/index.tsx";
 import * as $dashboard_middleware from "./routes/dashboard/_middleware.ts";
@@ -16,6 +18,7 @@ import * as $dashboard_blog_new from "./routes/dashboard/blog/new.tsx";
 import * as $dashboard_index from "./routes/dashboard/index.tsx";
 import * as $dashboard_login from "./routes/dashboard/login.tsx";
 import * as $dashboard_logout from "./routes/dashboard/logout.ts";
+import * as $dashboard_media_index from "./routes/dashboard/media/index.tsx";
 import * as $dashboard_projects_slug_ from "./routes/dashboard/projects/[slug].tsx";
 import * as $dashboard_projects_index from "./routes/dashboard/projects/index.tsx";
 import * as $dashboard_projects_new from "./routes/dashboard/projects/new.tsx";
@@ -35,8 +38,10 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/api/dashboard/delete-blog.ts": $api_dashboard_delete_blog,
+    "./routes/api/dashboard/delete-image.ts": $api_dashboard_delete_image,
     "./routes/api/dashboard/delete-project.ts": $api_dashboard_delete_project,
     "./routes/api/dashboard/delete-skill.ts": $api_dashboard_delete_skill,
+    "./routes/api/dashboard/upload-image.ts": $api_dashboard_upload_image,
     "./routes/blog/[slug].tsx": $blog_slug_,
     "./routes/blog/index.tsx": $blog_index,
     "./routes/dashboard/_middleware.ts": $dashboard_middleware,
@@ -46,6 +51,7 @@ const manifest = {
     "./routes/dashboard/index.tsx": $dashboard_index,
     "./routes/dashboard/login.tsx": $dashboard_login,
     "./routes/dashboard/logout.ts": $dashboard_logout,
+    "./routes/dashboard/media/index.tsx": $dashboard_media_index,
     "./routes/dashboard/projects/[slug].tsx": $dashboard_projects_slug_,
     "./routes/dashboard/projects/index.tsx": $dashboard_projects_index,
     "./routes/dashboard/projects/new.tsx": $dashboard_projects_new,
