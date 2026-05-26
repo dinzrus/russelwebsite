@@ -1,4 +1,5 @@
 import type { PageProps, Handlers } from "$fresh/server.ts";
+import { Head } from "$fresh/runtime.ts";
 import frontmatter from "front-matter";
 import { marked } from "marked";
 import Nav from "../../components/Nav.tsx";
@@ -10,6 +11,8 @@ interface ProjectData {
   tags: string[];
   liveUrl?: string;
   githubUrl?: string;
+  seoTitle?: string;
+  metaDescription?: string;
   html: string;
   notFound?: boolean;
 }
@@ -26,6 +29,8 @@ export const handler: Handlers<ProjectData> = {
         tags: string[];
         liveUrl?: string;
         githubUrl?: string;
+        seoTitle?: string;
+        metaDescription?: string;
       }>(fileContent);
       const html = await marked.parse(body);
 
@@ -35,6 +40,8 @@ export const handler: Handlers<ProjectData> = {
         tags: attributes.tags,
         liveUrl: attributes.liveUrl,
         githubUrl: attributes.githubUrl,
+        seoTitle: attributes.seoTitle,
+        metaDescription: attributes.metaDescription,
         html,
       });
     } catch {
@@ -76,6 +83,11 @@ export default function ProjectPage({ data }: PageProps<ProjectData>) {
 
   return (
     <main class="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+      <Head>
+        <title>{data.seoTitle || data.title} | Russel Dinoy</title>
+        {data.metaDescription && <meta name="description" content={data.metaDescription} />}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github-dark.min.css" />
+      </Head>
       <Nav />
       <article class="max-w-3xl mx-auto px-6 pt-32 pb-24">
         <a

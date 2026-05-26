@@ -26,6 +26,7 @@
     "marked": "npm:marked@12.0.2",
     "marked-highlight": "npm:marked-highlight@2.2.2",
     "highlight.js": "npm:highlight.js@11.10.0",
+    "easymde": "npm:easymde@2.18.0",
     "$std/": "https://deno.land/std@0.216.0/"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },

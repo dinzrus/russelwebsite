@@ -4,7 +4,7 @@ description: "A personal portfolio built with Deno and Fresh, featuring a blog w
 tags: ["Deno", "Fresh", "Tailwind CSS", "TypeScript"]
 liveUrl: "https://russeldinoy.dev"
 githubUrl: "https://github.com/dinzrus"
-featured: true
+featured: false
 ---
 
 ## Overview

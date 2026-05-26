@@ -1,4 +1,5 @@
 import type { PageProps, Handlers } from "$fresh/server.ts";
+import { Head } from "$fresh/runtime.ts";
 import frontmatter from "front-matter";
 import { marked } from "marked";
 import { markedHighlight } from "marked-highlight";
@@ -20,6 +21,8 @@ interface PostData {
   tags: string[];
   html: string;
   readingTime: number;
+  seoTitle?: string;
+  metaDescription?: string;
   notFound?: boolean;
 }
 
@@ -33,6 +36,8 @@ export const handler: Handlers<PostData> = {
         title: string;
         date: string;
         tags: string[];
+        seoTitle: string;
+        metaDescription: string;
       }>(fileContent);
       const html = await marked.parse(body);
       const wordCount = body.split(/\s+/).length;
@@ -44,6 +49,8 @@ export const handler: Handlers<PostData> = {
         tags: attributes.tags,
         html,
         readingTime,
+        seoTitle: attributes.seoTitle,
+        metaDescription: attributes.metaDescription,
       });
     } catch {
       return ctx.render({
@@ -85,6 +92,11 @@ export default function BlogPost({ data }: PageProps<PostData>) {
 
   return (
     <main class="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+      <Head>
+        <title>{data.seoTitle || data.title} | Russel Dinoy</title>
+        {data.metaDescription && <meta name="description" content={data.metaDescription} />}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github-dark.min.css" />
+      </Head>
       <Nav />
       <article class="max-w-3xl mx-auto px-6 pt-32 pb-24">
         <a

@@ -2,6 +2,7 @@ import type { PageProps, Handlers } from "$fresh/server.ts";
 import frontmatter from "front-matter";
 import Nav from "../../components/Nav.tsx";
 import Footer from "../../components/Footer.tsx";
+import { loadConfig } from "../../utils/config.ts";
 
 interface Project {
   slug: string;
@@ -15,17 +16,24 @@ interface Project {
 
 interface ProjectsData {
   projects: Project[];
+  page: number;
+  totalPages: number;
 }
 
 export const handler: Handlers<ProjectsData> = {
-  async GET(_req, ctx) {
-    const projects: Project[] = [];
+  async GET(req, ctx) {
+    const url = new URL(req.url);
+    const page = Math.max(1, parseInt(url.searchParams.get("page") as string, 10) || 1);
+    const config = await loadConfig();
+    const perPage = config.projectsPerPage;
+
+    const allProjects: Project[] = [];
 
     for await (const entry of Deno.readDir("./projects")) {
       if (!entry.name.endsWith(".md") || entry.isDirectory) continue;
       const content = await Deno.readTextFile(`./projects/${entry.name}`);
       const { attributes } = frontmatter<Record<string, unknown>>(content);
-      projects.push({
+      allProjects.push({
         slug: entry.name.replace(".md", ""),
         title: attributes.title as string,
         description: attributes.description as string,
@@ -36,14 +44,18 @@ export const handler: Handlers<ProjectsData> = {
       });
     }
 
-    projects.sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1));
+    allProjects.sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1));
 
-    return ctx.render({ projects });
+    const totalPages = Math.max(1, Math.ceil(allProjects.length / perPage));
+    const start = (page - 1) * perPage;
+    const projects = allProjects.slice(start, start + perPage);
+
+    return ctx.render({ projects, page, totalPages });
   },
 };
 
 export default function ProjectsPage({ data }: PageProps<ProjectsData>) {
-  const { projects } = data;
+  const { projects, page, totalPages } = data;
 
   return (
     <main class="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
@@ -121,6 +133,36 @@ export default function ProjectsPage({ data }: PageProps<ProjectsData>) {
             </div>
           ))}
         </div>
+
+        {totalPages > 1 && (
+          <div class="flex items-center justify-center gap-2 mt-12">
+            {page > 1 && (
+              <a href={`/projects?page=${page - 1}`}
+                class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-cyan-500 transition-colors"
+              >
+                &larr; Previous
+              </a>
+            )}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+              <a href={`/projects?page=${p}`}
+                class={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  p === page
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white"
+                    : "text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-cyan-500"
+                }`}
+              >
+                {p}
+              </a>
+            ))}
+            {page < totalPages && (
+              <a href={`/projects?page=${page + 1}`}
+                class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-cyan-500 transition-colors"
+              >
+                Next &rarr;
+              </a>
+            )}
+          </div>
+        )}
       </div>
       <Footer />
     </main>

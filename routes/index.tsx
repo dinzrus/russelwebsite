@@ -19,6 +19,19 @@ interface ProjectItem {
   githubUrl?: string;
 }
 
+const SKILL_COLORS = [
+  "from-orange-500 to-red-500",
+  "from-blue-500 to-cyan-500",
+  "from-yellow-400 to-orange-500",
+  "from-red-500 to-pink-500",
+  "from-blue-600 to-blue-400",
+  "from-cyan-400 to-teal-500",
+  "from-slate-400 to-slate-500",
+  "from-purple-500 to-pink-500",
+  "from-green-500 to-teal-500",
+  "from-rose-500 to-red-500",
+];
+
 export default async function Home() {
   const posts: BlogPost[] = [];
   for await (const entry of Deno.readDir("./posts")) {
@@ -50,6 +63,14 @@ export default async function Home() {
         githubUrl: attributes.githubUrl as string | undefined,
       });
     }
+  }
+
+  let skills: { name: string; percent: number }[] = [];
+  try {
+    const raw = await Deno.readTextFile("./data/skills.json");
+    skills = JSON.parse(raw);
+  } catch {
+    skills = [];
   }
 
   const recentPosts = posts.slice(0, 2);
@@ -120,15 +141,7 @@ export default async function Home() {
             <div class="flex-1 h-px bg-gradient-to-r from-cyan-500/50 to-transparent"></div>
           </div>
           <div class="grid gap-6">
-            {[
-              { name: "HTML", percent: 90, color: "from-orange-500 to-red-500" },
-              { name: "CSS", percent: 85, color: "from-blue-500 to-cyan-500" },
-              { name: "JavaScript", percent: 70, color: "from-yellow-400 to-orange-500" },
-              { name: "PHP / Laravel", percent: 75, color: "from-red-500 to-pink-500" },
-              { name: "WordPress", percent: 90, color: "from-blue-600 to-blue-400" },
-              { name: "Tailwind CSS", percent: 60, color: "from-cyan-400 to-teal-500" },
-              { name: "Deno / JS Runtime", percent: 50, color: "from-slate-400 to-slate-500" },
-            ].map((skill) => (
+            {skills.map((skill, i) => (
               <div class="group">
                 <div class="flex justify-between items-center mb-2">
                   <span class="text-slate-600 dark:text-slate-300 font-medium">{skill.name}</span>
@@ -136,7 +149,7 @@ export default async function Home() {
                 </div>
                 <div class="h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                   <div 
-                    class={`skill-bar-fill h-full bg-gradient-to-r ${skill.color} rounded-full transition-all duration-1000 group-hover:shadow-lg group-hover:shadow-cyan-500/30`}
+                    class={`skill-bar-fill h-full bg-gradient-to-r ${SKILL_COLORS[i % SKILL_COLORS.length]} rounded-full transition-all duration-1000 group-hover:shadow-lg group-hover:shadow-cyan-500/30`}
                     style={`--skill-percent: ${skill.percent}%;`}
                   ></div>
                 </div>

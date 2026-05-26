@@ -4,7 +4,7 @@ description: "A collaborative task management tool with real-time updates, kanba
 tags: ["Vue", "Firebase", "Tailwind CSS"]
 liveUrl: "https://example.com"
 githubUrl: "https://github.com/dinzrus/taskflow"
-featured: true
+featured: false
 ---
 
 ## Overview

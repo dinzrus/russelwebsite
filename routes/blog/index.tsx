@@ -2,6 +2,7 @@ import type { PageProps } from "$fresh/server.ts";
 import frontmatter from "front-matter";
 import Nav from "../../components/Nav.tsx";
 import Footer from "../../components/Footer.tsx";
+import { loadConfig } from "../../utils/config.ts";
 
 interface Post {
   slug: string;
@@ -11,23 +12,47 @@ interface Post {
   tags: string[];
 }
 
-export default async function BlogIndex(_props: PageProps) {
-  const posts: Post[] = [];
+interface BlogData {
+  posts: Post[];
+  page: number;
+  totalPages: number;
+  perPage: number;
+}
 
-  for await (const entry of Deno.readDir("./posts")) {
-    if (!entry.name.endsWith(".md") || entry.isDirectory) continue;
-    const content = await Deno.readTextFile(`./posts/${entry.name}`);
-    const { attributes } = frontmatter<Record<string, unknown>>(content);
-    posts.push({
-      slug: entry.name.replace(".md", ""),
-      title: attributes.title as string,
-      date: attributes.date as string,
-      excerpt: attributes.excerpt as string,
-      tags: attributes.tags as string[],
-    });
-  }
+export const handler = {
+  async GET(req: Request, ctx: { render: (data: BlogData) => Response }) {
+    const url = new URL(req.url);
+    const page = Math.max(1, parseInt(url.searchParams.get("page") as string, 10) || 1);
+    const config = await loadConfig();
+    const perPage = config.postsPerPage;
 
-  posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const allPosts: Post[] = [];
+
+    for await (const entry of Deno.readDir("./posts")) {
+      if (!entry.name.endsWith(".md") || entry.isDirectory) continue;
+      const content = await Deno.readTextFile(`./posts/${entry.name}`);
+      const { attributes } = frontmatter<Record<string, unknown>>(content);
+      allPosts.push({
+        slug: entry.name.replace(".md", ""),
+        title: attributes.title as string,
+        date: attributes.date as string,
+        excerpt: attributes.excerpt as string,
+        tags: attributes.tags as string[],
+      });
+    }
+
+    allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    const totalPages = Math.max(1, Math.ceil(allPosts.length / perPage));
+    const start = (page - 1) * perPage;
+    const posts = allPosts.slice(start, start + perPage);
+
+    return ctx.render({ posts, page, totalPages, perPage });
+  },
+};
+
+export default function BlogIndex({ data }: PageProps<BlogData>) {
+  const { posts, page, totalPages } = data;
 
   return (
     <main class="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
@@ -76,6 +101,36 @@ export default async function BlogIndex(_props: PageProps) {
             </a>
           ))}
         </div>
+
+        {totalPages > 1 && (
+          <div class="flex items-center justify-center gap-2 mt-12">
+            {page > 1 && (
+              <a href={`/blog?page=${page - 1}`}
+                class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-cyan-500 transition-colors"
+              >
+                &larr; Previous
+              </a>
+            )}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+              <a href={`/blog?page=${p}`}
+                class={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  p === page
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white"
+                    : "text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-cyan-500"
+                }`}
+              >
+                {p}
+              </a>
+            ))}
+            {page < totalPages && (
+              <a href={`/blog?page=${page + 1}`}
+                class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-cyan-500 transition-colors"
+              >
+                Next &rarr;
+              </a>
+            )}
+          </div>
+        )}
       </div>
       <Footer />
     </main>

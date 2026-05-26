@@ -4,11 +4,29 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $api_dashboard_delete_blog from "./routes/api/dashboard/delete-blog.ts";
+import * as $api_dashboard_delete_project from "./routes/api/dashboard/delete-project.ts";
+import * as $api_dashboard_delete_skill from "./routes/api/dashboard/delete-skill.ts";
 import * as $blog_slug_ from "./routes/blog/[slug].tsx";
 import * as $blog_index from "./routes/blog/index.tsx";
+import * as $dashboard_middleware from "./routes/dashboard/_middleware.ts";
+import * as $dashboard_blog_slug_ from "./routes/dashboard/blog/[slug].tsx";
+import * as $dashboard_blog_index from "./routes/dashboard/blog/index.tsx";
+import * as $dashboard_blog_new from "./routes/dashboard/blog/new.tsx";
+import * as $dashboard_index from "./routes/dashboard/index.tsx";
+import * as $dashboard_login from "./routes/dashboard/login.tsx";
+import * as $dashboard_logout from "./routes/dashboard/logout.ts";
+import * as $dashboard_projects_slug_ from "./routes/dashboard/projects/[slug].tsx";
+import * as $dashboard_projects_index from "./routes/dashboard/projects/index.tsx";
+import * as $dashboard_projects_new from "./routes/dashboard/projects/new.tsx";
+import * as $dashboard_settings from "./routes/dashboard/settings.tsx";
+import * as $dashboard_skills_name_ from "./routes/dashboard/skills/[name].tsx";
+import * as $dashboard_skills_index from "./routes/dashboard/skills/index.tsx";
+import * as $dashboard_skills_new from "./routes/dashboard/skills/new.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $projects_slug_ from "./routes/projects/[slug].tsx";
 import * as $projects_index from "./routes/projects/index.tsx";
+import * as $MarkdownEditor from "./islands/MarkdownEditor.tsx";
 import * as $ThemeToggle from "./islands/ThemeToggle.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -16,13 +34,31 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/api/dashboard/delete-blog.ts": $api_dashboard_delete_blog,
+    "./routes/api/dashboard/delete-project.ts": $api_dashboard_delete_project,
+    "./routes/api/dashboard/delete-skill.ts": $api_dashboard_delete_skill,
     "./routes/blog/[slug].tsx": $blog_slug_,
     "./routes/blog/index.tsx": $blog_index,
+    "./routes/dashboard/_middleware.ts": $dashboard_middleware,
+    "./routes/dashboard/blog/[slug].tsx": $dashboard_blog_slug_,
+    "./routes/dashboard/blog/index.tsx": $dashboard_blog_index,
+    "./routes/dashboard/blog/new.tsx": $dashboard_blog_new,
+    "./routes/dashboard/index.tsx": $dashboard_index,
+    "./routes/dashboard/login.tsx": $dashboard_login,
+    "./routes/dashboard/logout.ts": $dashboard_logout,
+    "./routes/dashboard/projects/[slug].tsx": $dashboard_projects_slug_,
+    "./routes/dashboard/projects/index.tsx": $dashboard_projects_index,
+    "./routes/dashboard/projects/new.tsx": $dashboard_projects_new,
+    "./routes/dashboard/settings.tsx": $dashboard_settings,
+    "./routes/dashboard/skills/[name].tsx": $dashboard_skills_name_,
+    "./routes/dashboard/skills/index.tsx": $dashboard_skills_index,
+    "./routes/dashboard/skills/new.tsx": $dashboard_skills_new,
     "./routes/index.tsx": $index,
     "./routes/projects/[slug].tsx": $projects_slug_,
     "./routes/projects/index.tsx": $projects_index,
   },
   islands: {
+    "./islands/MarkdownEditor.tsx": $MarkdownEditor,
     "./islands/ThemeToggle.tsx": $ThemeToggle,
   },
   baseUrl: import.meta.url,
