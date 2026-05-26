@@ -2,6 +2,7 @@ import { Handlers } from "$fresh/server.ts";
 import MarkdownEditor from "../../../islands/MarkdownEditor.tsx";
 import DashboardLayout from "../../../components/DashboardLayout.tsx";
 import { buildFrontmatter } from "../../../utils/frontmatter.ts";
+import { setProject } from "../../../utils/db.ts";
 
 interface FormData {
   slug: string;
@@ -67,8 +68,7 @@ export const handler: Handlers<FormData> = {
     const frontmatter = buildFrontmatter(attrs);
     const content = frontmatter + "\n" + body;
 
-    try { await Deno.mkdir("./projects", { recursive: true }); } catch { /* ok */ }
-    await Deno.writeTextFile(`./projects/${slug}.md`, content);
+    await setProject(slug, content);
 
     return new Response(null, {
       status: 302,

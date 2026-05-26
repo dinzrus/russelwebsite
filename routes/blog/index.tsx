@@ -2,7 +2,7 @@ import type { PageProps } from "$fresh/server.ts";
 import frontmatter from "front-matter";
 import Nav from "../../components/Nav.tsx";
 import Footer from "../../components/Footer.tsx";
-import { loadConfig } from "../../utils/config.ts";
+import { listBlogPosts, getBlogPost, getConfig } from "../../utils/db.ts";
 
 interface Post {
   slug: string;
@@ -23,17 +23,18 @@ export const handler = {
   async GET(req: Request, ctx: { render: (data: BlogData) => Response }) {
     const url = new URL(req.url);
     const page = Math.max(1, parseInt(url.searchParams.get("page") as string, 10) || 1);
-    const config = await loadConfig();
+    const config = await getConfig();
     const perPage = config.postsPerPage;
 
+    const slugs = await listBlogPosts();
     const allPosts: Post[] = [];
 
-    for await (const entry of Deno.readDir("./posts")) {
-      if (!entry.name.endsWith(".md") || entry.isDirectory) continue;
-      const content = await Deno.readTextFile(`./posts/${entry.name}`);
+    for (const slug of slugs) {
+      const content = await getBlogPost(slug);
+      if (!content) continue;
       const { attributes } = frontmatter<Record<string, unknown>>(content);
       allPosts.push({
-        slug: entry.name.replace(".md", ""),
+        slug,
         title: attributes.title as string,
         date: attributes.date as string,
         excerpt: attributes.excerpt as string,

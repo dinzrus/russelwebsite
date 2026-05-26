@@ -1,6 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
 import { sha256, getToken } from "../../../utils/crypto.ts";
+import { deleteProject } from "../../../utils/db.ts";
 
 export const handler: Handlers = {
   async POST(req) {
@@ -17,11 +18,7 @@ export const handler: Handlers = {
       return new Response(null, { status: 400, headers: { Location: "/dashboard/projects" } });
     }
 
-    try {
-      await Deno.remove(`./projects/${slug}.md`);
-    } catch {
-      // file doesn't exist
-    }
+    await deleteProject(slug);
 
     return new Response(null, {
       status: 302,

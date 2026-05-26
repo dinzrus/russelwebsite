@@ -1,6 +1,7 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import frontmatter from "front-matter";
 import DashboardLayout from "../../../components/DashboardLayout.tsx";
+import { listProjects, getProject } from "../../../utils/db.ts";
 
 interface ProjectItem {
   slug: string;
@@ -15,19 +16,16 @@ interface ProjectsData {
 export const handler: Handlers<ProjectsData> = {
   async GET(_req, ctx) {
     const projects: ProjectItem[] = [];
-    try {
-      for await (const entry of Deno.readDir("./projects")) {
-        if (!entry.name.endsWith(".md") || entry.isDirectory) continue;
-        const content = await Deno.readTextFile(`./projects/${entry.name}`);
-        const { attributes } = frontmatter<{ title: string; featured: boolean }>(content);
-        projects.push({
-          slug: entry.name.replace(".md", ""),
-          title: attributes.title || entry.name,
-          featured: !!attributes.featured,
-        });
-      }
-    } catch {
-      // dir doesn't exist
+    const slugs = await listProjects();
+    for (const slug of slugs) {
+      const content = await getProject(slug);
+      if (!content) continue;
+      const { attributes } = frontmatter<{ title: string; featured: boolean }>(content);
+      projects.push({
+        slug,
+        title: attributes.title || slug,
+        featured: !!attributes.featured,
+      });
     }
     projects.sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1));
     return ctx.render({ projects });

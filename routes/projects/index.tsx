@@ -2,7 +2,7 @@ import type { PageProps, Handlers } from "$fresh/server.ts";
 import frontmatter from "front-matter";
 import Nav from "../../components/Nav.tsx";
 import Footer from "../../components/Footer.tsx";
-import { loadConfig } from "../../utils/config.ts";
+import { listProjects, getProject, getConfig } from "../../utils/db.ts";
 
 interface Project {
   slug: string;
@@ -24,17 +24,18 @@ export const handler: Handlers<ProjectsData> = {
   async GET(req, ctx) {
     const url = new URL(req.url);
     const page = Math.max(1, parseInt(url.searchParams.get("page") as string, 10) || 1);
-    const config = await loadConfig();
+    const config = await getConfig();
     const perPage = config.projectsPerPage;
 
+    const slugs = await listProjects();
     const allProjects: Project[] = [];
 
-    for await (const entry of Deno.readDir("./projects")) {
-      if (!entry.name.endsWith(".md") || entry.isDirectory) continue;
-      const content = await Deno.readTextFile(`./projects/${entry.name}`);
+    for (const slug of slugs) {
+      const content = await getProject(slug);
+      if (!content) continue;
       const { attributes } = frontmatter<Record<string, unknown>>(content);
       allProjects.push({
-        slug: entry.name.replace(".md", ""),
+        slug,
         title: attributes.title as string,
         description: attributes.description as string,
         tags: attributes.tags as string[],

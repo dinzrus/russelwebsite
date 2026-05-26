@@ -1,5 +1,6 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import DashboardLayout from "../../../components/DashboardLayout.tsx";
+import { getSkills, setSkills } from "../../../utils/db.ts";
 
 interface Skill {
   name: string;
@@ -10,23 +11,10 @@ interface SkillData {
   skill: Skill;
 }
 
-async function loadSkills(): Promise<Skill[]> {
-  try {
-    const raw = await Deno.readTextFile("./data/skills.json");
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
-}
-
-async function saveSkills(skills: Skill[]): Promise<void> {
-  await Deno.writeTextFile("./data/skills.json", JSON.stringify(skills, null, 2));
-}
-
 export const handler: Handlers<SkillData> = {
   async GET(_req, ctx) {
     const name = decodeURIComponent(ctx.params.name);
-    const skills = await loadSkills();
+    const skills = await getSkills<Skill>();
     const skill = skills.find((s) => s.name === name);
 
     if (!skill) return new Response("Skill not found", { status: 404 });
@@ -44,7 +32,7 @@ export const handler: Handlers<SkillData> = {
       return new Response("Invalid input", { status: 400 });
     }
 
-    const skills = await loadSkills();
+    const skills = await getSkills<Skill>();
     const idx = skills.findIndex((s) => s.name === originalName);
     if (idx === -1) return new Response("Skill not found", { status: 404 });
 
@@ -54,7 +42,7 @@ export const handler: Handlers<SkillData> = {
     }
 
     skills[idx] = { name: newName, percent };
-    await saveSkills(skills);
+    await setSkills(skills);
 
     return new Response(null, {
       status: 302,

@@ -1,10 +1,12 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import DashboardLayout from "../../components/DashboardLayout.tsx";
-import { loadConfig, saveConfig, type SiteConfig } from "../../utils/config.ts";
+import { getConfig, setConfig } from "../../utils/db.ts";
+
+interface SiteConfig { postsPerPage: number; projectsPerPage: number }
 
 export const handler: Handlers<SiteConfig> = {
   async GET(_req, ctx) {
-    const config = await loadConfig();
+    const config = await getConfig();
     return ctx.render(config);
   },
 
@@ -13,10 +15,10 @@ export const handler: Handlers<SiteConfig> = {
     const postsPerPage = parseInt(form.get("postsPerPage") as string, 10);
     const projectsPerPage = parseInt(form.get("projectsPerPage") as string, 10);
 
-    const config = await loadConfig();
+    const config = await getConfig();
     if (!isNaN(postsPerPage) && postsPerPage > 0) config.postsPerPage = postsPerPage;
     if (!isNaN(projectsPerPage) && projectsPerPage > 0) config.projectsPerPage = projectsPerPage;
-    await saveConfig(config);
+    await setConfig(config);
 
     return new Response(null, {
       status: 302,

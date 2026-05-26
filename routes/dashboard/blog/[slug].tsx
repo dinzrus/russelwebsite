@@ -3,6 +3,7 @@ import frontmatter from "front-matter";
 import MarkdownEditor from "../../../islands/MarkdownEditor.tsx";
 import DashboardLayout from "../../../components/DashboardLayout.tsx";
 import { buildFrontmatter } from "../../../utils/frontmatter.ts";
+import { getBlogPost, setBlogPost, deleteBlogPost } from "../../../utils/db.ts";
 
 interface EditData {
   slug: string;
@@ -23,7 +24,8 @@ export const handler: Handlers<EditData> = {
     const slug = ctx.params.slug;
 
     try {
-      const fileContent = await Deno.readTextFile(`./posts/${slug}.md`);
+      const fileContent = await getBlogPost(slug);
+      if (!fileContent) throw new Error("not found");
       const { attributes, body } = frontmatter<{
         title: string;
         date: string;
@@ -94,10 +96,10 @@ export const handler: Handlers<EditData> = {
     const frontmatter = buildFrontmatter(attrs);
     const content = frontmatter + "\n" + body;
 
-    await Deno.writeTextFile(`./posts/${newSlug}.md`, content);
+    await setBlogPost(newSlug, content);
 
     if (newSlug !== slug) {
-      try { await Deno.remove(`./posts/${slug}.md`); } catch { /* ignore */ }
+      await deleteBlogPost(slug);
     }
 
     return new Response(null, {

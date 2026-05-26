@@ -2,6 +2,7 @@ import { Handlers } from "$fresh/server.ts";
 import MarkdownEditor from "../../../islands/MarkdownEditor.tsx";
 import DashboardLayout from "../../../components/DashboardLayout.tsx";
 import { buildFrontmatter } from "../../../utils/frontmatter.ts";
+import { setBlogPost } from "../../../utils/db.ts";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -52,12 +53,7 @@ export const handler: Handlers = {
     const frontmatter = buildFrontmatter(attrs);
     const content = frontmatter + "\n" + body;
 
-    try {
-      await Deno.mkdir("./posts", { recursive: true });
-    } catch {
-      // already exists
-    }
-    await Deno.writeTextFile(`./posts/${slug}.md`, content);
+    await setBlogPost(slug, content);
 
     return new Response(null, {
       status: 302,

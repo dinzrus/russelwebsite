@@ -1,6 +1,7 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import frontmatter from "front-matter";
 import DashboardLayout from "../../../components/DashboardLayout.tsx";
+import { listBlogPosts, getBlogPost } from "../../../utils/db.ts";
 
 interface BlogPost {
   slug: string;
@@ -15,19 +16,16 @@ interface BlogData {
 export const handler: Handlers<BlogData> = {
   async GET(_req, ctx) {
     const posts: BlogPost[] = [];
-    try {
-      for await (const entry of Deno.readDir("./posts")) {
-        if (!entry.name.endsWith(".md") || entry.isDirectory) continue;
-        const content = await Deno.readTextFile(`./posts/${entry.name}`);
-        const { attributes } = frontmatter<Record<string, unknown>>(content);
-        posts.push({
-          slug: entry.name.replace(".md", ""),
-          title: typeof attributes.title === "string" ? attributes.title : entry.name,
-          date: typeof attributes.date === "string" ? attributes.date : "",
-        });
-      }
-    } catch {
-      // dir doesn't exist
+    const slugs = await listBlogPosts();
+    for (const slug of slugs) {
+      const content = await getBlogPost(slug);
+      if (!content) continue;
+      const { attributes } = frontmatter<Record<string, unknown>>(content);
+      posts.push({
+        slug,
+        title: typeof attributes.title === "string" ? attributes.title : slug,
+        date: typeof attributes.date === "string" ? attributes.date : "",
+      });
     }
     posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     return ctx.render({ posts });

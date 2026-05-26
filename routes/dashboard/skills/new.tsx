@@ -1,22 +1,10 @@
 import { Handlers } from "$fresh/server.ts";
 import DashboardLayout from "../../../components/DashboardLayout.tsx";
+import { getSkills, setSkills } from "../../../utils/db.ts";
 
 interface Skill {
   name: string;
   percent: number;
-}
-
-async function loadSkills(): Promise<Skill[]> {
-  try {
-    const raw = await Deno.readTextFile("./data/skills.json");
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
-}
-
-async function saveSkills(skills: Skill[]): Promise<void> {
-  await Deno.writeTextFile("./data/skills.json", JSON.stringify(skills, null, 2));
 }
 
 export const handler: Handlers = {
@@ -29,14 +17,14 @@ export const handler: Handlers = {
       return new Response("Invalid input", { status: 400 });
     }
 
-    const skills = await loadSkills();
+    const skills = await getSkills<Skill>();
 
     if (skills.some((s) => s.name.toLowerCase() === name.toLowerCase())) {
       return new Response("Skill already exists", { status: 409 });
     }
 
     skills.push({ name, percent });
-    await saveSkills(skills);
+    await setSkills(skills);
 
     return new Response(null, {
       status: 302,

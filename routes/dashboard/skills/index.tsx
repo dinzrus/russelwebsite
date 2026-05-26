@@ -1,5 +1,6 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import DashboardLayout from "../../../components/DashboardLayout.tsx";
+import { getSkills } from "../../../utils/db.ts";
 
 interface Skill {
   name: string;
@@ -10,18 +11,9 @@ interface SkillsData {
   skills: Skill[];
 }
 
-async function loadSkills(): Promise<Skill[]> {
-  try {
-    const raw = await Deno.readTextFile("./data/skills.json");
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
-}
-
 export const handler: Handlers<SkillsData> = {
   async GET(_req, ctx) {
-    const skills = await loadSkills();
+    const skills = await getSkills<Skill>();
     return ctx.render({ skills });
   },
 };

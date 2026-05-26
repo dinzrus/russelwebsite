@@ -3,6 +3,7 @@ import frontmatter from "front-matter";
 import MarkdownEditor from "../../../islands/MarkdownEditor.tsx";
 import DashboardLayout from "../../../components/DashboardLayout.tsx";
 import { buildFrontmatter } from "../../../utils/frontmatter.ts";
+import { getProject, setProject, deleteProject } from "../../../utils/db.ts";
 
 interface EditData {
   slug: string;
@@ -25,7 +26,8 @@ export const handler: Handlers<EditData> = {
     const slug = ctx.params.slug;
 
     try {
-      const fileContent = await Deno.readTextFile(`./projects/${slug}.md`);
+      const fileContent = await getProject(slug);
+      if (!fileContent) throw new Error("not found");
       const { attributes, body } = frontmatter<{
         title: string;
         description: string;
@@ -91,10 +93,10 @@ export const handler: Handlers<EditData> = {
     if (metaDescription) attrs.metaDescription = metaDescription;
 
     const fm = buildFrontmatter(attrs);
-    await Deno.writeTextFile(`./projects/${newSlug}.md`, fm + "\n" + body);
+    await setProject(newSlug, fm + "\n" + body);
 
     if (newSlug !== slug) {
-      try { await Deno.remove(`./projects/${slug}.md`); } catch { /* ignore */ }
+      await deleteProject(slug);
     }
 
     return new Response(null, {

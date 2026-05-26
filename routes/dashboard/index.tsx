@@ -1,32 +1,16 @@
 import DashboardLayout from "../../components/DashboardLayout.tsx";
+import { listBlogPosts, listProjects, getSkills } from "../../utils/db.ts";
+
+interface Skill { name: string; percent: number }
 
 export default async function Dashboard() {
-  let posts = 0;
-  let projects = 0;
-  let skills = 0;
+  const blogSlugs = await listBlogPosts();
+  const projectSlugs = await listProjects();
+  const skillsArr = await getSkills<Skill>();
 
-  try {
-    for await (const _entry of Deno.readDir("./posts")) {
-      posts++;
-    }
-  } catch {
-    // dir doesn't exist yet
-  }
-
-  try {
-    for await (const _entry of Deno.readDir("./projects")) {
-      projects++;
-    }
-  } catch {
-    // dir doesn't exist yet
-  }
-
-  try {
-    const raw = await Deno.readTextFile("./data/skills.json");
-    skills = JSON.parse(raw).length;
-  } catch {
-    // file doesn't exist yet
-  }
+  const posts = blogSlugs.length;
+  const projects = projectSlugs.length;
+  const skills = skillsArr.length;
 
   return (
     <DashboardLayout title="Dashboard" activeNav="dashboard">

@@ -6,6 +6,7 @@ import { markedHighlight } from "marked-highlight";
 import hljs from "highlight.js";
 import Nav from "../../components/Nav.tsx";
 import Footer from "../../components/Footer.tsx";
+import { getBlogPost } from "../../utils/db.ts";
 
 marked.use(markedHighlight({
   langPrefix: "hljs language-",
@@ -31,7 +32,8 @@ export const handler: Handlers<PostData> = {
     const slug = ctx.params.slug;
 
     try {
-      const fileContent = await Deno.readTextFile(`./posts/${slug}.md`);
+      const fileContent = await getBlogPost(slug);
+      if (!fileContent) throw new Error("not found");
       const { attributes, body } = frontmatter<{
         title: string;
         date: string;

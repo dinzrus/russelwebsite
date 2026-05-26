@@ -4,6 +4,7 @@ import frontmatter from "front-matter";
 import { marked } from "marked";
 import Nav from "../../components/Nav.tsx";
 import Footer from "../../components/Footer.tsx";
+import { getProject } from "../../utils/db.ts";
 
 interface ProjectData {
   title: string;
@@ -22,13 +23,15 @@ export const handler: Handlers<ProjectData> = {
     const slug = ctx.params.slug;
 
     try {
-      const fileContent = await Deno.readTextFile(`./projects/${slug}.md`);
+      const fileContent = await getProject(slug);
+      if (!fileContent) throw new Error("not found");
       const { attributes, body } = frontmatter<{
         title: string;
         description: string;
         tags: string[];
         liveUrl?: string;
         githubUrl?: string;
+        featured?: boolean;
         seoTitle?: string;
         metaDescription?: string;
       }>(fileContent);

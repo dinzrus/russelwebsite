@@ -1,6 +1,7 @@
 import Nav from "../components/Nav.tsx";
 import Footer from "../components/Footer.tsx";
 import frontmatter from "front-matter";
+import { listBlogPosts, getBlogPost, listProjects, getProject, getSkills } from "../utils/db.ts";
 
 interface BlogPost {
   slug: string;
@@ -34,12 +35,13 @@ const SKILL_COLORS = [
 
 export default async function Home() {
   const posts: BlogPost[] = [];
-  for await (const entry of Deno.readDir("./posts")) {
-    if (!entry.name.endsWith(".md") || entry.isDirectory) continue;
-    const content = await Deno.readTextFile(`./posts/${entry.name}`);
+  const blogSlugs = await listBlogPosts();
+  for (const slug of blogSlugs) {
+    const content = await getBlogPost(slug);
+    if (!content) continue;
     const { attributes } = frontmatter<Record<string, unknown>>(content);
     posts.push({
-      slug: entry.name.replace(".md", ""),
+      slug,
       title: attributes.title as string,
       date: attributes.date as string,
       excerpt: attributes.excerpt as string,
@@ -49,13 +51,14 @@ export default async function Home() {
   posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   const projects: ProjectItem[] = [];
-  for await (const entry of Deno.readDir("./projects")) {
-    if (!entry.name.endsWith(".md") || entry.isDirectory) continue;
-    const content = await Deno.readTextFile(`./projects/${entry.name}`);
+  const projectSlugs = await listProjects();
+  for (const slug of projectSlugs) {
+    const content = await getProject(slug);
+    if (!content) continue;
     const { attributes } = frontmatter<Record<string, unknown>>(content);
     if (attributes.featured) {
       projects.push({
-        slug: entry.name.replace(".md", ""),
+        slug,
         title: attributes.title as string,
         description: attributes.description as string,
         tags: attributes.tags as string[],
@@ -65,13 +68,7 @@ export default async function Home() {
     }
   }
 
-  let skills: { name: string; percent: number }[] = [];
-  try {
-    const raw = await Deno.readTextFile("./data/skills.json");
-    skills = JSON.parse(raw);
-  } catch {
-    skills = [];
-  }
+  const skills: { name: string; percent: number }[] = await getSkills();
 
   const recentPosts = posts.slice(0, 2);
   const recentProjects = projects.slice(0, 2);
