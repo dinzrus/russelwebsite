@@ -4,24 +4,26 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
-import * as $api_joke from "./routes/api/joke.ts";
-import * as $greet_name_ from "./routes/greet/[name].tsx";
+import * as $blog_slug_ from "./routes/blog/[slug].tsx";
+import * as $blog_index from "./routes/blog/index.tsx";
 import * as $index from "./routes/index.tsx";
-import * as $Counter from "./islands/Counter.tsx";
-import * as $Simplejs from "./islands/Simplejs.tsx";
+import * as $projects_slug_ from "./routes/projects/[slug].tsx";
+import * as $projects_index from "./routes/projects/index.tsx";
+import * as $ThemeToggle from "./islands/ThemeToggle.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
-    "./routes/api/joke.ts": $api_joke,
-    "./routes/greet/[name].tsx": $greet_name_,
+    "./routes/blog/[slug].tsx": $blog_slug_,
+    "./routes/blog/index.tsx": $blog_index,
     "./routes/index.tsx": $index,
+    "./routes/projects/[slug].tsx": $projects_slug_,
+    "./routes/projects/index.tsx": $projects_index,
   },
   islands: {
-    "./islands/Counter.tsx": $Counter,
-    "./islands/Simplejs.tsx": $Simplejs,
+    "./islands/ThemeToggle.tsx": $ThemeToggle,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
